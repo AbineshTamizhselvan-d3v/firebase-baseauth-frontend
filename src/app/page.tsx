@@ -5,15 +5,12 @@ import { signInWithPopup } from "firebase/auth";
 import { apiRequest as originalApiRequest } from "../utils/api";
 
 
-// Wrapper to log API calls and responses
 async function apiRequest(endpoint: string, options?: any) {
   console.log(`[API CALL] ${endpoint}`, options || "");
   const res = await originalApiRequest(endpoint, options);
   try {
-    // Try to parse the response (assuming apiRequest returns a Response-like object)
     const data = await res.json();
     console.log(`[API RESPONSE] ${endpoint}:`, data);
-    // Re-create a Response-like object for downstream code
     return {
       ...res,
       json: async () => data
@@ -124,8 +121,7 @@ export default function Home() {
     alert("Bio updated");
   };
 
-  // Fetch bio on load
-  // Remove duplicate fetchBio effect, as apiRequest handles refresh logic
+
 
   if (!user) {
     return (
